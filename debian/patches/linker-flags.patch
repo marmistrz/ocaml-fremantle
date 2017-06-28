@@ -1,0 +1,25 @@
+Index: ocaml-3.12.1/configure
+===================================================================
+--- ocaml-3.12.1.orig/configure	2011-11-18 17:45:15.000000000 +0000
++++ ocaml-3.12.1/configure	2011-11-18 17:54:51.104603036 +0000
+@@ -285,7 +285,9 @@
+     if cc="$bytecc" sh ./hasgot -mieee; then
+       bytecccompopts="-mieee $bytecccompopts";
+     fi
+-    bytecclinkopts="-Wl,--no-relax";;
++    bytecclinkopts="-Wl,--hash-style=both -Wl,--as-needed -Wl,--build-id -Wl,--no-relax";;
++  gcc,*-*-linux*)
++    bytecclinkopts="-Wl,--hash-style=both -Wl,--as-needed -Wl,--build-id";;
+   cc,mips-*-irix6*)
+     # Add -n32 flag to ensure compatibility with native-code compiler
+     bytecccompopts="-n32"
+@@ -740,7 +742,8 @@
+                        nativecccompopts="$gcc_warnings -DSHRINKED_GNUC";;
+   *,*,rhapsody,*)      nativecccompopts="$gcc_warnings -DDARWIN_VERSION_6 $dl_defs"
+                        if $arch64; then partialld="ld -r -arch ppc64"; fi;;
+-  alpha,gcc*,linux*,*) nativecclinkopts="-Wl,--no-relax";;
++  alpha,gcc*,linux*,*) nativecclinkopts="-Wl,--hash-style=both -Wl,--as-needed -Wl,--build-id -Wl,--no-relax";;
++  *,gcc*,linux*,*)     nativecclinkopts="-Wl,--hash-style=both -Wl,--as-needed -Wl,--build-id";;
+   *,gcc*,cygwin,*)     nativecccompopts="$gcc_warnings -U_WIN32";;
+   amd64,gcc*,macosx,*) partialld="ld -r -arch x86_64";;
+   amd64,gcc*,solaris,*) partialld="ld -r -m elf_x86_64";;
